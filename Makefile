@@ -1,9 +1,9 @@
-NAME	= jarbinlocalapi
-UV	= uv
+NAME	=	jarbinlocalapi
+UV	=	uv
 
-.DEFAULT_GOAL	= run
+.DEFAULT_GOAL	=	run
 
-.PHONY: help run sync update clean
+.PHONY:	help run sync update clean clean-run
 
 help:
 	@echo "Usage:"
@@ -20,7 +20,7 @@ sync:
 
 update:
 	$(UV) lock --upgrade
-	$(UV) sync
+	@$(MAKE) --no-print-directory sync
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
