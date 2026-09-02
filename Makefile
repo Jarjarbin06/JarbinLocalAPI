@@ -1,0 +1,27 @@
+NAME	= jarbinlocalapi
+UV	= uv
+
+.DEFAULT_GOAL	= run
+
+.PHONY: help run sync update clean
+
+help:
+	@echo "Usage:"
+	@echo "  make run      Run the FastAPI server"
+	@echo "  make sync     Synchronize the virtual environment"
+	@echo "  make update   Update dependencies"
+	@echo "  make clean    Remove generated Python files"
+
+run:
+	$(UV) run uvicorn main:app --host 0.0.0.0 --port 8000
+
+sync:
+	$(UV) sync
+
+update:
+	$(UV) lock --upgrade
+	$(UV) sync
+
+clean:
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+	find . -type f -name "*.pyc" -delete
