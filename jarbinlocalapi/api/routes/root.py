@@ -1,7 +1,4 @@
-from fastapi.responses import FileResponse
-
-
-from jarbinlocalapi.main import api
+from jarbinlocalapi.api import api
 
 
 @api.get("/")

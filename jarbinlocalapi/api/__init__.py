@@ -8,8 +8,8 @@ from fastapi import APIRouter
 
 from jarbinlocalapi.main import jarbinlocalapi
 
-app = APIRouter(prefix="/app")
+api = APIRouter(prefix="/api")
 
-jarbinlocalapi.include_router(app)
+jarbinlocalapi.include_router(api)
 
-APP_DIR = Path(__file__).resolve().parents[0] / "web"
+API_DIR = Path(__file__).resolve().parents[0]

@@ -1,8 +1,8 @@
 from fastapi.responses import FileResponse
 
 
-from jarbinlocalapi.main import app
-from jarbinlocalapi.app import WEB_DIR
+from jarbinlocalapi.app import app
+from jarbinlocalapi.app import APP_DIR
 
 
 @app.get("/")
@@ -12,4 +12,4 @@ def get_root():
 
         Simple web `Hello World!`
     """
-    return FileResponse(WEB_DIR / "index.html")
+    return FileResponse(APP_DIR / "index.html")
