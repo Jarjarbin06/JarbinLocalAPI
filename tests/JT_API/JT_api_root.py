@@ -26,5 +26,5 @@ def JT_api_root_get():
 # REGISTER TEST
 # =========================================================
 
-JTT_API_Root = JarTest()
-failed: list = JTT_API_Root.fetch()
+JTT_API_ROOT = JarTest()
+failed: list = JTT_API_ROOT.fetch()

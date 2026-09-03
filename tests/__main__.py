@@ -19,6 +19,6 @@ from tests.JT_APP import JT_app_root
 # REGISTER TEST SUITE
 # =========================================================
 
-JTT_main: JarTest = JarTest()
-JTT_main.fetch_tests()
-JTT_main.run()
+JTT_MAIN: JarTest = JarTest()
+JTT_MAIN.fetch_tests()
+JTT_MAIN.run()
