@@ -25,3 +25,6 @@ update:
 clean:
 	sudo find . -path './.venv' -o -type d -name "__pycache__" -exec rm -rf {} +
 	sudo find . -path './.venv' -o -type f -name "*.pyc" -delete
+
+test:
+	.venv/bin/python3 -m tests
