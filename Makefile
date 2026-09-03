@@ -13,7 +13,7 @@ help:
 	@echo "  make clean    Remove generated Python files"
 
 run:
-	$(UV) run uvicorn main:app --host 0.0.0.0 --port 8000
+	sudo $(UV) run uvicorn main:app --host 0.0.0.0 --port 80
 
 sync:
 	$(UV) sync
