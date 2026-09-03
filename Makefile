@@ -13,7 +13,7 @@ help:
 	@echo "  make clean    Remove generated Python files"
 
 run:
-	sudo $(UV) run uvicorn main:app --host 0.0.0.0 --port 80
+	sudo $(UV) run uvicorn api.main:app --host 0.0.0.0 --port 80
 
 sync:
 	$(UV) sync
@@ -23,5 +23,5 @@ update:
 	@$(MAKE) --no-print-directory sync
 
 clean:
-	find . -type d -name "__pycache__" -exec rm -rf {} +
-	find . -type f -name "*.pyc" -delete
+	sudo find . -path './.venv' -prune -o -type d -name "__pycache__" -exec rm -rf {} +
+	sudo find . -path './.venv' -prune -o -type f -name "*.pyc" -delete
