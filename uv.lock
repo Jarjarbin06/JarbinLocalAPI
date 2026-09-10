@@ -22,15 +22,15 @@ wheels = [
 
 [[package]]
 name = "anyio"
-version = "4.15.0"
+version = "4.15.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "idna" },
     { name = "typing-extensions", marker = "python_full_version < '3.15'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ea/9a/c15a60547004a3f3cea20296c934f827ddd7bdba225a2e7e9fcb5ec48c80/anyio-4.15.0.tar.gz", hash = "sha256:b5c620ed540725e2579c31b17bb995b3bf02c9281c9cace04c7d186380bab85e", size = 276504, upload-time = "2026-09-02T21:46:36.957Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a9/d2/f4d173e22df740bc37b1db102b386ba719b66e95b0f0d751f556b387e6d2/anyio-4.15.1.tar.gz", hash = "sha256:9f28306018cbd6d329e64a36d58256edff76dd996fe423bc957326e578b82a94", size = 276966, upload-time = "2026-09-05T10:42:39.44Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/21/a6/2b21ce5ebe4d8938a247c9b0dbb7271566ae559b01795c83ea4bb2660ed7/anyio-4.15.0-py3-none-any.whl", hash = "sha256:7ecd9937369ffce8bba0b5ccb9b3a9507b101b0ed50256aecfbab27e6c2acb99", size = 131908, upload-time = "2026-09-02T21:46:35.485Z" },
+    { url = "https://files.pythonhosted.org/packages/12/b8/4bd346e22b28902df4d651910f5242c28d84e4a5c2435ca5c3f797ed7e2e/anyio-4.15.1-py3-none-any.whl", hash = "sha256:6152fdbbf9a77fdec97731721bebf7c4c44f7c29b424b0065826173efc7ed101", size = 132079, upload-time = "2026-09-05T10:42:37.923Z" },
 ]
 
 [[package]]
@@ -205,17 +205,18 @@ wheels = [
 
 [[package]]
 name = "jarbin-toolkit-jartest"
-version = "0.1.5.3"
+version = "0.2.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "datetime" },
+    { name = "httpx" },
     { name = "jarbin-toolkit-console" },
     { name = "jarbin-toolkit-error" },
     { name = "jarbin-toolkit-time" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a3/4d/53fe6abaee5a67e6297626ce112fb506542eac6e6d3aaa481fa91d921eb8/jarbin_toolkit_jartest-0.1.5.3.tar.gz", hash = "sha256:f2c148e56f5d33530d2a16c335de02a897fdcf93af703d7e7ae80f1c407387e2", size = 38654, upload-time = "2026-09-04T09:46:17.351Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7c/fb/ab1122455f19eaa2db69da17cc43d2a2fe8fbc488b1d6f7f3e6f15a3a943/jarbin_toolkit_jartest-0.2.1.0.tar.gz", hash = "sha256:c99f234679f7f26286207644a207a204e6ac1b5205f41e70db96f456cc9f0f88", size = 42117, upload-time = "2026-09-10T09:48:35.256Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/29/96/9ef311913b7d0fa3116ce1a89aae40dd3db34ba01fdea38b0bfdd49dfb5a/jarbin_toolkit_jartest-0.1.5.3-py3-none-any.whl", hash = "sha256:fe2df799ff3d4f680116383a01c8d9c9b806b3fedb797c5a040203f880b13b77", size = 27564, upload-time = "2026-09-04T09:46:16.204Z" },
+    { url = "https://files.pythonhosted.org/packages/c5/45/18db04fa13cbb6839da56daea1d5f07d8123cd80d9805a897bc5d231c351/jarbin_toolkit_jartest-0.2.1.0-py3-none-any.whl", hash = "sha256:d9a68b88265d51286b8192ade6dfe9b2aa9f8feb4cb1d401aec9fe1e3c63492d", size = 31302, upload-time = "2026-09-10T09:48:33.729Z" },
 ]
 
 [[package]]
@@ -266,7 +267,7 @@ requires-dist = [
     { name = "jarbin-toolkit-action", specifier = "==0.1.2.3" },
     { name = "jarbin-toolkit-config", specifier = "==0.1.2.3" },
     { name = "jarbin-toolkit-error", specifier = "==0.1.6.2" },
-    { name = "jarbin-toolkit-jartest", specifier = "==0.1.5.3" },
+    { name = "jarbin-toolkit-jartest", specifier = "==0.2.1.0" },
     { name = "jarbin-toolkit-log", specifier = "==0.2.3.1" },
     { name = "pip", specifier = "==26.2.1" },
     { name = "psutil", specifier = "==7.2.2" },
