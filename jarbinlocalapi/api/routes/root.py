@@ -4,8 +4,9 @@ from jarbinlocalapi.api import api
 @api.get("/")
 def get_root():
     """
-        Route: `/api/`
+        Route: `/api`
 
-        Simple `Hello World!`
+        Return base "Hello World!" message.
     """
+
     return {"message": "Hello World!"}

@@ -8,8 +8,9 @@ from jarbinlocalapi.app import APP_DIR
 @app.get("/")
 def get_root():
     """
-        Route: `/app/`
+        Route: `/app`
 
-        Simple web `Hello World!`
+        Return base "Hello World!" page.
     """
+
     return FileResponse(APP_DIR / "index.html")

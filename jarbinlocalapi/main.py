@@ -10,9 +10,9 @@ def get_root():
     """
         Route: `/`
 
-        Get server status
+        Get server status.
     """
-    return {"status": "ok"}
+    return {"status": "OK"}
 
 
 def run() -> None:
