@@ -3,7 +3,7 @@ name = "jarbinlocalapi"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
-    "fastapi",
+    "fastapi~=0.141.1",
     "jarbin-toolkit-config~=0.1.2.3",
     "jarbin-toolkit-error~=0.1.6.2",
     "jarbin-toolkit-log~=0.2.3.1",

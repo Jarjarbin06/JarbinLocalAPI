@@ -10,14 +10,17 @@ PID_DIR		=	run
 PID_FILE	=	$(PID_DIR)/$(NAME).pid
 LOG_FILE	=	$(PID_DIR)/$(NAME).log
 
+INSTALL_USER	:=	$(shell id -un)
+
 SHELL		:=	/bin/bash
 .DEFAULT_GOAL	=	help
 
-.PHONY:	help install run start stop restart status logs sync update clean test
+.PHONY:	help install network run start stop restart status logs sync update clean test
 
 help:
 	@echo "Usage:"
 	@echo "  make install  Install everything the API needs"
+	@echo "  make network  Configure network access
 	@echo "  make run      Run the FastAPI server in foreground"
 	@echo "  make start    Start the FastAPI server in background"
 	@echo "  make stop     Stop the FastAPI server"
@@ -38,6 +41,20 @@ install:
 	sudo cp $$(readlink -f $(PYTHON)) $(PYTHON_CAP)
 	sudo chown $$(id -u):$$(id -g) $(PYTHON_CAP)
 	sudo setcap 'cap_net_bind_service=+ep' $(PYTHON_CAP)
+	@$(MAKE) --no-print-directory network
+
+network:
+	sudo hostnamectl set-hostname "$(INSTALL_USER)"
+	sudo firewall-cmd --zone=FedoraWorkstation --add-port=80/tcp --permanent
+	sudo firewall-cmd --reload
+	sudo systemctl enable --now avahi-daemon
+	@echo
+	@echo "Network access configured."
+	@echo
+	@echo "JarbinLocalAPI:"
+	@echo "  HTTP: http://$$(hostname)/"
+	@echo "  mDNS: http://$$(hostname).local/"
+	@echo
 
 run:
 	$(PYTHON_CAP) -m uvicorn jarbinlocalapi.main:jarbinlocalapi --host 0.0.0.0 --port 80
