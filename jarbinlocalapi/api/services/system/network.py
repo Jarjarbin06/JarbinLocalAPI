@@ -26,7 +26,7 @@ def get_network_interface_status(
 
 
 def get_network_io_counters(
-        pernic: bool = False,
+        pernic: bool = True,
         nowrap: bool = True,
     ) -> dict[str, dict[str, Any]]:
     count = psutil.net_io_counters(pernic = pernic, nowrap = nowrap)

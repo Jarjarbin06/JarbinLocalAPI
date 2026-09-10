@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ title }} ({{ version }}) - CPU</title>
+
+    <link rel="stylesheet" href="/app/static/css/main.css">
+</head>
+
+<body>
+
+<header>
+    <h1>CPU</h1>
+    <p>{{ title }} {{ version }}</p>
+    <br>
+    <button onclick="history.back()">Go Back</button>
+</header>
+
+<main>
+    <div class="grid">
+
+        <!-- USAGE -->
+        <section class="card">
+            <h2>Usage</h2>
+
+            <div class="value" id="cpu-percent">
+                {{ cpu.percent }}%
+            </div>
+
+            <div class="bar">
+                <div
+                    class="bar-fill"
+                    id="cpu-usage-bar"
+                    style="width: {{ cpu.percent }}%;"
+                ></div>
+            </div>
+        </section>
+
+
+        <!-- CPU COUNT -->
+        <section class="card">
+            <h2>Processors</h2>
+
+            <div class="value" id="cpu-count">
+                {{ cpu.count }}
+            </div>
+
+            <div class="label">
+                Logical CPUs
+            </div>
+        </section>
+
+
+        <!-- FREQUENCY -->
+        <section class="card">
+            <h2>Frequency</h2>
+
+            <div class="row">
+                <span class="label">Current</span>
+                <strong id="cpu-frequency-current">
+                    {{ cpu.frequency.current }} MHz
+                </strong>
+            </div>
+
+            <div class="row">
+                <span class="label">Min</span>
+                <strong id="cpu-frequency-min">
+                    {{ cpu.frequency.min }} MHz
+                </strong>
+            </div>
+
+            <div class="row">
+                <span class="label">Max</span>
+                <strong id="cpu-frequency-max">
+                    {{ cpu.frequency.max }} MHz
+                </strong>
+            </div>
+        </section>
+
+
+        <!-- LOAD -->
+        <section class="card">
+            <h2>Load Average</h2>
+
+            <div class="row">
+                <span class="label">1 minute</span>
+                <strong id="cpu-load-1">
+                    {{ cpu.load[0] }}
+                </strong>
+            </div>
+
+            <div class="row">
+                <span class="label">5 minutes</span>
+                <strong id="cpu-load-5">
+                    {{ cpu.load[1] }}
+                </strong>
+            </div>
+
+            <div class="row">
+                <span class="label">15 minutes</span>
+                <strong id="cpu-load-15">
+                    {{ cpu.load[2] }}
+                </strong>
+            </div>
+        </section>
+
+
+        <!-- CPU TIMES -->
+        <section class="card">
+            <h2>CPU Times</h2>
+
+            {% for name, value in cpu.times.items() %}
+            <div class="row">
+                <span class="label">{{ name }}</span>
+
+                <strong id="cpu-time-{{ name }}">
+                    {{ value }}
+                </strong>
+            </div>
+            {% endfor %}
+        </section>
+
+
+        <!-- CPU TIMES PERCENT -->
+        <section class="card">
+            <h2>CPU Times (%)</h2>
+
+            {% for name, value in cpu.times_percent.items() %}
+            <div class="row">
+                <span class="label">{{ name }}</span>
+
+                <strong id="cpu-time-percent-{{ name }}">
+                    {{ value }}%
+                </strong>
+            </div>
+            {% endfor %}
+        </section>
+
+
+        <!-- CPU STATS -->
+        <section class="card wide">
+            <h2>CPU Statistics</h2>
+
+            {% for name, value in cpu.stats.items() %}
+            <div class="row">
+                <span class="label">{{ name }}</span>
+
+                <strong id="cpu-stat-{{ name }}">
+                    {{ value }}
+                </strong>
+            </div>
+            {% endfor %}
+        </section>
+
+    </div>
+</main>
+
+<script src="/app/static/js/system/cpu.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ title }} ({{ version }}) - Not Found</title>
+
+    <link rel="stylesheet" href="/app/static/css/main.css">
+</head>
+
+<body>
+
+<header>
+    <h1>404 - Not Found</h1>
+    <p>{{ title }} {{ version }}</p>
+    <br>
+    <button onclick="history.back()">Go Back</button>
+</header>
+
+<main>
+    <div class="grid">
+
+        <section class="card">
+            <h2>Page Not Found</h2>
+
+            <p>
+                The requested page could not be found.
+            </p>
+
+            <div class="row">
+                <span class="label">Status</span>
+                <strong>404</strong>
+            </div>
+
+            <div class="row">
+                <span class="label">Path</span>
+                <strong>{{ path }}</strong>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>What now?</h2>
+
+            <p class="muted">
+                The page may have been moved, removed, or never existed.
+            </p>
+
+            <div class="row">
+                <span>Return to homepage</span>
+                <a href="/app/">Home</a>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+</body>
+</html>

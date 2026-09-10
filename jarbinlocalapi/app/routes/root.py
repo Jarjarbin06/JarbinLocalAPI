@@ -1,16 +1,19 @@
-from fastapi.responses import FileResponse
-
+from fastapi.responses import HTMLResponse
 
 from jarbinlocalapi.app import app
-from jarbinlocalapi.app import APP_DIR
+from jarbinlocalapi.app.templates.root import template_root
+from jarbinlocalapi import (
+    __name__ as title,
+    __version__ as version
+)
 
 
-@app.get("/")
-def get_root():
+@app.get("/", response_class=HTMLResponse)
+async def get_root():
     """
         Route: `/app`
 
         Return base "Hello World!" page.
     """
 
-    return FileResponse(APP_DIR / "index.html")
+    return template_root.render(title = title, version = version)

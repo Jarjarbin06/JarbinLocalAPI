@@ -14,8 +14,10 @@ from jarbinlocalapi.api.services.system.overview import (
 )
 
 
+#-------------------- ROOT --------------------#
+
 @api.get("/system")
-def get_system(type: Literal[
+async def get_system(type: Literal[
             "cpu",
             "memory",
             "disk",
@@ -40,8 +42,10 @@ def get_system(type: Literal[
     return response
 
 
+#-------------------- SYSTEMS --------------------#
+
 @api.get("/system/cpu")
-def get_system_cpu(category: Literal[
+async def get_system_cpu(category: Literal[
             "percent",
             "times",
             "times_percent",
@@ -67,7 +71,7 @@ def get_system_cpu(category: Literal[
 
 
 @api.get("/system/memory")
-def get_system_memory(category: Literal[
+async def get_system_memory(category: Literal[
             "virtual",
             "swap",
         ] | None = Query(default=None)
@@ -88,7 +92,7 @@ def get_system_memory(category: Literal[
 
 
 @api.get("/system/disk")
-def get_system_disk(category: Literal[
+async def get_system_disk(category: Literal[
             "usage",
             "partitions",
             "io",
@@ -110,7 +114,7 @@ def get_system_disk(category: Literal[
 
 
 @api.get("/system/network")
-def get_system_network(category: Literal[
+async def get_system_network(category: Literal[
             "interfaces",
             "interface_status",
             "io",
@@ -133,7 +137,7 @@ def get_system_network(category: Literal[
 
 
 @api.get("/system/processes")
-def get_system_processes(category: Literal[
+async def get_system_processes(category: Literal[
             "count",
             "pids",
             "processes",
@@ -155,7 +159,7 @@ def get_system_processes(category: Literal[
 
 
 @api.get("/system/sensors")
-def get_system_sensors(category: Literal[
+async def get_system_sensors(category: Literal[
             "temperatures",
             "fans",
             "battery",
@@ -177,7 +181,7 @@ def get_system_sensors(category: Literal[
 
 
 @api.get("/system/system")
-def get_system_system(category: Literal[
+async def get_system_system(category: Literal[
             "boot_time",
             "users",
         ] | None = Query(default=None)

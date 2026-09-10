@@ -1,5 +1,5 @@
 """
-WEB
+WEB app
 """
 
 
@@ -12,4 +12,4 @@ app = APIRouter(prefix="/app")
 
 jarbinlocalapi.include_router(app)
 
-APP_DIR = Path(__file__).resolve().parents[0] / "web"
+APP_DIR = Path(__file__).resolve().parents[0]

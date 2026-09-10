@@ -98,9 +98,9 @@ update:
 	@$(MAKE) --no-print-directory sync
 
 clean:
-	find . \( -path './.venv' -o -type d -name "__pycache__" \) -exec rm -rf {} +
-	find . \( -path './.venv' -o -type f -name "*.pyc" \) -delete
-	rm -drf $(PID_DIR)
+	sudo find . -type d -name "__pycache__" -exec rm -rf {} +
+	sudo find . -type f -name "*.pyc" -delete
+	sudo rm -drf $(PID_DIR)
 
 test:
 	$(PYTHON) -m tests

@@ -18,7 +18,7 @@ def get_disk_partitions(
 
 
 def get_disk_io_counters(
-        perdisk: bool = False,
+        perdisk: bool = True,
         nowrap: bool = True,
     ) -> dict[str, dict[str, Any]] | None :
     disk = psutil.disk_io_counters(perdisk = perdisk, nowrap = nowrap)
