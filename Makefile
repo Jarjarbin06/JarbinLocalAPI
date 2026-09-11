@@ -41,7 +41,7 @@ install:
 	sudo cp $$(readlink -f $(PYTHON)) $(PYTHON_CAP)
 	sudo chown $$(id -u):$$(id -g) $(PYTHON_CAP)
 	sudo setcap 'cap_net_bind_service=+ep' $(PYTHON_CAP)
-	@$(MAKE) --no-print-directory network
+	@$(MAKE) --no-print-directory network update
 
 network:
 	sudo hostnamectl set-hostname "$(INSTALL_USER)"

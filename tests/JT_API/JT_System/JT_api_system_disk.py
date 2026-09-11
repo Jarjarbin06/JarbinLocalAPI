@@ -11,6 +11,7 @@ def JT_api_system_disk_get():
     response = Get.HTTP.get(url, follow_redirects=True)
 
     Show.Request(response.request.method, url)
+    Show.Response(  response, body=False)
 
     Assertion.eq(response.status_code, 200, "API system disk returned wrong status code")
 
@@ -26,11 +27,7 @@ def JT_api_system_disk_get_per_category():
 
         Show.Request(response.request.method, url)
 
-        if response.status_code != 200:
-            Show.Response(response)
-            Assertion(False, f"API system disk returned wrong status code for type '{_type}'")
-            continue
-
+        Assertion.eq(response.status_code, 200, f"API system disk returned wrong status code for type '{_type}'")
         Assertion.eq(list(response.json().keys())[0], _type, f"API system disk returned wrong response for type '{_type}'")
 
 

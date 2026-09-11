@@ -11,6 +11,7 @@ def JT_app_system_memory_get():
     response = Get.HTTP.get(url, follow_redirects=True)
 
     Show.Request(response.request.method, url)
+    Show.Response(response, body=False)
 
     Assertion.eq(response.status_code, 200, "APP system memory returned wrong status code")
 
