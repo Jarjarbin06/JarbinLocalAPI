@@ -20,7 +20,7 @@ SHELL		:=	/bin/bash
 help:
 	@echo "Usage:"
 	@echo "  make install  Install everything the API needs"
-	@echo "  make network  Configure network access
+	@echo "  make network  Configure network access"
 	@echo "  make run      Run the FastAPI server in foreground"
 	@echo "  make start    Start the FastAPI server in background"
 	@echo "  make stop     Stop the FastAPI server"

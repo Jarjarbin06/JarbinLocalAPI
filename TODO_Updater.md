@@ -6,21 +6,24 @@
 
 # 1. Define the System Architecture
 
-- [ ] Define the synchronization subsystem independently from the existing package/cache service.
-- [ ] Decide whether the synchronization system lives inside JarbinLocalAPI or in a dedicated Python program.
-- [ ] Define the concepts of:
-  - [ ] Projects
-  - [ ] Devices
-  - [ ] Snapshots
-  - [ ] File manifests
-  - [ ] File objects
-  - [ ] Updates
-  - [ ] Conflicts
-- [ ] Define the server as the source of truth for synchronized projects.
-- [ ] Keep the implementation cross-platform:
-  - [ ] Linux
-  - [ ] Windows
-  - [ ] Android / Termux
+* [ ] Define the synchronization subsystem independently from the existing package/cache service.
+* [ ] Decide whether the synchronization system lives inside JarbinLocalAPI or in a dedicated Python program.
+* [ ] Define the concepts of:
+
+  * [ ] Projects
+  * [ ] Devices
+  * [ ] Snapshots
+  * [ ] File manifests
+  * [ ] File objects
+  * [ ] Updates
+  * [ ] Conflicts
+* [ ] Define the server as the source of truth for synchronized projects.
+* [ ] Keep the implementation cross-platform:
+
+  * [ ] Linux
+  * [ ] Windows
+  * [ ] Android / Termux
+* [ ] Keep synchronization logic independent from platform-specific filesystem operations.
 
 Suggested structure:
 
@@ -38,11 +41,12 @@ JarbinLocalAPI
 
 # 2. Project Repository
 
-- [ ] Implement server-side project storage.
-- [ ] Give every synchronized project a unique identifier.
-- [ ] Store the current project state on the server.
-- [ ] Store historical project snapshots.
-- [ ] Keep the latest snapshot identifiable as the current version.
+* [ ] Implement server-side project storage.
+* [ ] Give every synchronized project a unique identifier.
+* [ ] Store the current project state on the server.
+* [ ] Store historical project snapshots.
+* [ ] Keep the latest snapshot identifiable as the current version.
+* [ ] Store project metadata separately from file objects.
 
 Example:
 
@@ -60,12 +64,13 @@ projects/
 
 # 3. File Hashing
 
-- [ ] Hash every tracked file.
-- [ ] Use a strong content hash such as SHA-256.
-- [ ] Store the hash together with the relative file path.
-- [ ] Detect modifications by comparing hashes rather than timestamps.
-- [ ] Detect newly created files.
-- [ ] Detect deleted files.
+* [ ] Hash every tracked file.
+* [ ] Use a strong content hash such as SHA-256.
+* [ ] Store the hash together with the relative file path.
+* [ ] Detect modifications by comparing hashes rather than timestamps.
+* [ ] Detect newly created files.
+* [ ] Detect deleted files.
+* [ ] Ignore files and directories excluded by the project synchronization configuration.
 
 Example manifest:
 
@@ -81,12 +86,13 @@ Example manifest:
 
 # 4. Snapshots
 
-- [ ] Create immutable snapshots of project states.
-- [ ] Give every snapshot a unique identifier.
-- [ ] Associate each snapshot with its file manifest.
-- [ ] Store creation time.
-- [ ] Store the device that created the snapshot.
-- [ ] Optionally store a human-readable description/message.
+* [ ] Create immutable snapshots of project states.
+* [ ] Give every snapshot a unique identifier.
+* [ ] Associate each snapshot with its file manifest.
+* [ ] Store creation time.
+* [ ] Store the device that created the snapshot.
+* [ ] Optionally store a human-readable description/message.
+* [ ] Identify one snapshot as the current project state.
 
 Example:
 
@@ -107,10 +113,11 @@ d72a11
 
 # 5. Content-Addressed File Storage
 
-- [ ] Store files using their content hash.
-- [ ] Avoid storing the same file multiple times.
-- [ ] Allow multiple snapshots to reference the same file object.
-- [ ] Separate file objects from project snapshots.
+* [ ] Store files using their content hash.
+* [ ] Avoid storing the same file multiple times.
+* [ ] Allow multiple snapshots to reference the same file object.
+* [ ] Separate file objects from project snapshots.
+* [ ] Verify objects against their expected hash before accepting them.
 
 Conceptually:
 
@@ -138,12 +145,13 @@ assets/player.png → 42a991
 
 # 6. Client Registration
 
-- [ ] Give each device a unique identifier.
-- [ ] Store device name.
-- [ ] Store operating system.
-- [ ] Store architecture where relevant.
-- [ ] Track the last connection.
-- [ ] Track the projects installed/synchronized on the device.
+* [ ] Give each device a unique identifier.
+* [ ] Store device name.
+* [ ] Store operating system.
+* [ ] Store architecture where relevant.
+* [ ] Track the last connection.
+* [ ] Track the projects installed/synchronized on the device.
+* [ ] Allow a device to identify itself when communicating with the server.
 
 Example:
 
@@ -168,12 +176,13 @@ Jarjarbin-Phone    Android
 
 # 7. Client Manifest
 
-- [ ] Create a client-side manifest for each synchronized project.
-- [ ] Record the currently installed snapshot.
-- [ ] Record tracked file hashes.
-- [ ] Detect local changes before synchronization.
-- [ ] Detect files added locally.
-- [ ] Detect files deleted locally.
+* [ ] Create a client-side manifest for each synchronized project.
+* [ ] Record the currently installed snapshot.
+* [ ] Record tracked file hashes.
+* [ ] Detect local changes before synchronization.
+* [ ] Detect files added locally.
+* [ ] Detect files deleted locally.
+* [ ] Store enough information to determine the client's base snapshot.
 
 Example:
 
@@ -195,18 +204,20 @@ Example:
 
 Implement a status operation before implementing automatic updates.
 
-- [ ] Add a project status endpoint.
-- [ ] Compare the client's snapshot against the server snapshot.
-- [ ] Identify files that are:
-  - [ ] Unchanged
-  - [ ] Added on the server
-  - [ ] Modified on the server
-  - [ ] Deleted on the server
-  - [ ] Added locally
-  - [ ] Modified locally
-  - [ ] Deleted locally
-  - [ ] Conflicting
-- [ ] Return a machine-readable status.
+* [ ] Add a project status endpoint.
+* [ ] Compare the client's snapshot against the server snapshot.
+* [ ] Identify files that are:
+
+  * [ ] Unchanged
+  * [ ] Added on the server
+  * [ ] Modified on the server
+  * [ ] Deleted on the server
+  * [ ] Added locally
+  * [ ] Modified locally
+  * [ ] Deleted locally
+  * [ ] Conflicting
+* [ ] Return a machine-readable status.
+* [ ] Make the status operation read-only.
 
 Example:
 
@@ -237,13 +248,14 @@ Response:
 
 # 9. Pull / Update
 
-- [ ] Implement downloading server changes.
-- [ ] Only transfer files that are actually required.
-- [ ] Transfer deletion instructions for removed files.
-- [ ] Update the local manifest after a successful update.
-- [ ] Update the local snapshot identifier.
-- [ ] Make the operation atomic where possible.
-- [ ] Prevent a failed transfer from leaving the project in a partially updated state.
+* [ ] Implement downloading server changes.
+* [ ] Only transfer files that are actually required.
+* [ ] Transfer deletion instructions for removed files.
+* [ ] Update the local manifest after a successful update.
+* [ ] Update the local snapshot identifier.
+* [ ] Make the operation atomic where possible.
+* [ ] Prevent a failed transfer from leaving the project in a partially updated state.
+* [ ] Verify downloaded content before applying it.
 
 Suggested endpoint:
 
@@ -274,13 +286,15 @@ Example response:
 
 # 10. Push
 
-- [ ] Implement uploading local changes to the server.
-- [ ] Send the client's base snapshot.
-- [ ] Send only files that changed locally.
-- [ ] Upload new files.
-- [ ] Upload modified files.
-- [ ] Report deleted files.
-- [ ] Create a new server snapshot after successful validation.
+* [ ] Implement uploading local changes to the server.
+* [ ] Send the client's base snapshot.
+* [ ] Send only files that changed locally.
+* [ ] Upload new files.
+* [ ] Upload modified files.
+* [ ] Report deleted files.
+* [ ] Validate uploaded file hashes.
+* [ ] Create a new server snapshot after successful validation.
+* [ ] Refuse the push when the base snapshot is incompatible with the current server state.
 
 Suggested endpoint:
 
@@ -306,12 +320,13 @@ Client changes:
 
 This is a critical part of the system.
 
-- [ ] Detect when the server changed a file after the client's base snapshot.
-- [ ] Detect when the client also changed that same file.
-- [ ] Do not silently overwrite either version.
-- [ ] Return explicit conflict information.
-- [ ] Preserve the conflicting files.
-- [ ] Provide enough information for a client to resolve the conflict.
+* [ ] Detect when the server changed a file after the client's base snapshot.
+* [ ] Detect when the client also changed that same file.
+* [ ] Do not silently overwrite either version.
+* [ ] Return explicit conflict information.
+* [ ] Preserve the conflicting files.
+* [ ] Provide enough information for a client to resolve the conflict.
+* [ ] Keep the server snapshot unchanged until the conflict is resolved.
 
 Example:
 
@@ -340,11 +355,12 @@ Create separate snapshot
 
 # 12. Incremental Updates
 
-- [ ] Ensure normal updates do not require downloading the entire project.
-- [ ] Calculate differences between snapshots.
-- [ ] Transfer only required file objects.
-- [ ] Transfer deletion instructions separately.
-- [ ] Reuse already-existing content-addressed files.
+* [ ] Ensure normal updates do not require downloading the entire project.
+* [ ] Calculate differences between snapshots.
+* [ ] Transfer only required file objects.
+* [ ] Transfer deletion instructions separately.
+* [ ] Reuse already-existing content-addressed files.
+* [ ] Avoid retransmitting objects already present on the client where possible.
 
 Example:
 
@@ -360,12 +376,13 @@ Incremental update: 14 MB
 
 # 13. Compression
 
-- [ ] Compress update transfers.
-- [ ] Start with a simple and widely supported archive format such as ZIP.
-- [ ] Group multiple changed files into one update archive when beneficial.
-- [ ] Avoid unnecessary compression of already-compressed formats.
-- [ ] Preserve file paths and metadata required by the client.
-- [ ] Consider Zstandard later if performance becomes important.
+* [ ] Compress update transfers.
+* [ ] Start with a simple and widely supported archive format such as ZIP.
+* [ ] Group multiple changed files into one update archive when beneficial.
+* [ ] Avoid unnecessary compression of already-compressed formats.
+* [ ] Preserve file paths and metadata required by the client.
+* [ ] Consider Zstandard later if performance becomes important.
+* [ ] Verify the archive before applying its contents.
 
 Example:
 
@@ -379,6 +396,9 @@ update.zip
 Client
       │
       ▼
+Verify
+      │
+      ▼
 Extract changed files
 ```
 
@@ -388,11 +408,12 @@ Extract changed files
 
 Incremental synchronization should be the default, but full downloads should remain possible.
 
-- [ ] Implement a full project download.
-- [ ] Generate a compressed project archive.
-- [ ] Include the current snapshot identifier.
-- [ ] Include the complete project structure.
-- [ ] Allow a new device to initialize directly from the server.
+* [ ] Implement a full project download.
+* [ ] Generate a compressed project archive.
+* [ ] Include the current snapshot identifier.
+* [ ] Include the complete project structure.
+* [ ] Allow a new device to initialize directly from the server.
+* [ ] Verify the downloaded project against the included manifest.
 
 Example:
 
@@ -407,6 +428,8 @@ New device
     ↓
 Download complete project
     ↓
+Verify archive
+    ↓
 Create local manifest
     ↓
 Start incremental synchronization
@@ -416,11 +439,12 @@ Start incremental synchronization
 
 # 15. `/update` Convenience Operation
 
-- [ ] Create a high-level `/update` endpoint.
-- [ ] Allow a client to request updates for selected projects.
-- [ ] Identify the client's current snapshot.
-- [ ] Return only the necessary changes.
-- [ ] Allow the client to automatically apply them.
+* [ ] Create a high-level `/update` endpoint.
+* [ ] Allow a client to request updates for selected projects.
+* [ ] Identify the client's current snapshot.
+* [ ] Return only the necessary changes.
+* [ ] Allow the client to automatically apply them.
+* [ ] Report conflicts instead of silently overwriting local changes.
 
 Example:
 
@@ -466,11 +490,12 @@ Response:
 
 # 16. Automatic Update Checks
 
-- [ ] Allow a device to request synchronization when it connects.
-- [ ] Allow clients to periodically check for updates.
-- [ ] Allow the server to expose whether an update is available.
-- [ ] Allow per-device project subscriptions.
-- [ ] Avoid automatically modifying a project without client-side confirmation unless explicitly configured.
+* [ ] Allow a device to request synchronization when it connects.
+* [ ] Allow clients to periodically check for updates.
+* [ ] Allow the server to expose whether an update is available.
+* [ ] Allow per-device project subscriptions.
+* [ ] Avoid automatically modifying a project without client-side confirmation unless explicitly configured.
+* [ ] Do not automatically overwrite projects with unresolved conflicts.
 
 Example:
 
@@ -496,12 +521,13 @@ Done
 
 # 17. Cross-Platform Client
 
-- [ ] Create a Python client for the synchronization protocol.
-- [ ] Make the client work on Linux.
-- [ ] Make the client work on Windows.
-- [ ] Make the client work on Android through Termux.
-- [ ] Avoid platform-specific behavior in the core synchronization logic.
-- [ ] Isolate platform-specific filesystem operations.
+* [ ] Create a Python client for the synchronization protocol.
+* [ ] Make the client work on Linux.
+* [ ] Make the client work on Windows.
+* [ ] Make the client work on Android through Termux.
+* [ ] Avoid platform-specific behavior in the core synchronization logic.
+* [ ] Isolate platform-specific filesystem operations.
+* [ ] Use a common command-line interface across supported platforms.
 
 Possible command interface:
 
@@ -517,12 +543,13 @@ jarbin sync history JarEngine
 
 # 18. Project History
 
-- [ ] Provide access to historical snapshots.
-- [ ] List snapshots for a project.
-- [ ] Inspect the files belonging to a snapshot.
-- [ ] Compare two snapshots.
-- [ ] Allow downloading a historical snapshot.
-- [ ] Consider restoring a project to a previous snapshot.
+* [ ] Provide access to historical snapshots.
+* [ ] List snapshots for a project.
+* [ ] Inspect the files belonging to a snapshot.
+* [ ] Compare two snapshots.
+* [ ] Allow downloading a historical snapshot.
+* [ ] Consider restoring a project to a previous snapshot.
+* [ ] Prevent historical snapshots from being modified after creation.
 
 Example:
 
@@ -536,11 +563,13 @@ GET /sync/JarEngine/diff/a82f31/c91842
 
 # 19. Device / Project Permissions
 
-- [ ] Decide which devices can access synchronization.
-- [ ] Allow project-specific permissions.
-- [ ] Allow read-only devices.
-- [ ] Allow read/write devices.
-- [ ] Prevent unauthorized devices from modifying projects.
+* [ ] Decide which devices can access synchronization.
+* [ ] Allow project-specific permissions.
+* [ ] Allow read-only devices.
+* [ ] Allow read/write devices.
+* [ ] Prevent unauthorized devices from modifying projects.
+* [ ] Authenticate registered devices.
+* [ ] Reject unknown devices by default.
 
 Example:
 
@@ -560,11 +589,13 @@ Jarjarbin-Phone
 
 # 20. Integrity Verification
 
-- [ ] Verify downloaded file hashes.
-- [ ] Verify the resulting project manifest after synchronization.
-- [ ] Reject corrupted or incomplete objects.
-- [ ] Verify the final snapshot before marking synchronization as successful.
-- [ ] Make synchronization failures recoverable.
+* [ ] Verify downloaded file hashes.
+* [ ] Verify uploaded file hashes.
+* [ ] Verify the resulting project manifest after synchronization.
+* [ ] Reject corrupted or incomplete objects.
+* [ ] Verify the final snapshot before marking synchronization as successful.
+* [ ] Make synchronization failures recoverable.
+* [ ] Never mark a project as synchronized before integrity verification succeeds.
 
 Example:
 
@@ -674,6 +705,8 @@ Possible actions:
 [ Download Archive ]
 ```
 
+The dashboard should remain a visualization and management layer; synchronization itself should remain available through the API and client.
+
 ---
 
 # 24. Initial MVP
@@ -682,29 +715,30 @@ The first implementation should remain small.
 
 ### MVP server
 
-- [ ] One project
-- [ ] File hashing
-- [ ] Server-side manifest
-- [ ] Snapshots
-- [ ] Device registration
-- [ ] Status endpoint
-- [ ] Full pull
-- [ ] Incremental pull
-- [ ] Basic push
-- [ ] Basic conflict detection
-- [ ] ZIP-compressed transfers
+* [ ] One project
+* [ ] File hashing
+* [ ] Server-side manifest
+* [ ] Snapshots
+* [ ] Device registration
+* [ ] Status endpoint
+* [ ] Full pull
+* [ ] Incremental pull
+* [ ] Basic push
+* [ ] Basic conflict detection
+* [ ] ZIP-compressed transfers
+* [ ] Integrity verification
 
 ### MVP client
 
-- [ ] Python client
-- [ ] Linux support
-- [ ] Windows support
-- [ ] Android / Termux support
-- [ ] Local manifest
-- [ ] `status`
-- [ ] `pull`
-- [ ] `push`
-- [ ] `update`
+* [ ] Python client
+* [ ] Linux support
+* [ ] Windows support
+* [ ] Android / Termux support
+* [ ] Local manifest
+* [ ] `status`
+* [ ] `pull`
+* [ ] `push`
+* [ ] `update`
 
 ---
 
@@ -738,6 +772,8 @@ The finished system should allow the same project to exist on multiple devices w
 
 The core principle is:
 
-> **Do not replace an entire project unless necessary. Identify the exact project state, calculate the difference, transfer only the required content, and refuse to silently overwrite conflicting changes.**
+> **Do not replace an entire project unless necessary. Identify the exact project state, calculate the difference, transfer only the required content, verify the result, and refuse to silently overwrite conflicting changes.**
 
 This makes JarbinLocalAPI a personal, cross-platform project distribution and synchronization system rather than merely a file download server.
+
+**Status:** Planned.

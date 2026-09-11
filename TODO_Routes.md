@@ -1,10 +1,10 @@
 # JarbinLocalAPI — Ideas & Architecture
 
-> A personal local-network backend running on `jarjarbin.local`, designed to provide reusable services for Jarbin's applications and development projects.
+> A modular local API and web interface designed to provide reusable services for Jarbin's applications and development projects.
 
 ## Overview
 
-The current stack is:
+The current architecture is:
 
 ```text
 Device on local network
@@ -13,17 +13,14 @@ Device on local network
 jarjarbin.local
         │
         ▼
-      Caddy
-        │
-        ▼
      FastAPI
         │
+        ├── System
         ├── GitHub
         ├── JarEngine
         ├── Configuration
         ├── Logging
         ├── Services
-        ├── System
         ├── Files / Packages
         ├── Notifications
         ├── Clipboard
@@ -32,6 +29,8 @@ jarjarbin.local
 ```
 
 The main goal is to make **JarbinLocalAPI a reusable local infrastructure layer** rather than a single-purpose API.
+
+The current implementation focuses on the **system information and monitoring service** and its web interface.
 
 ---
 
@@ -43,14 +42,14 @@ Provide a local API around GitHub so that other applications do not need to comm
 
 This could centralize:
 
-- repositories;
-- issues;
-- pull requests;
-- commits;
-- releases;
-- repository statistics;
-- GitHub activity;
-- authenticated requests.
+* repositories;
+* issues;
+* pull requests;
+* commits;
+* releases;
+* repository statistics;
+* GitHub activity;
+* authenticated requests.
 
 ## Example API
 
@@ -93,6 +92,8 @@ GitHub REST API
 
 The service could also cache frequently requested information to avoid unnecessary GitHub API calls.
 
+**Status:** Planned.
+
 ---
 
 # 2. JarEngine Data Service
@@ -105,12 +106,12 @@ This service should not handle multiplayer synchronization or game networking.
 
 Possible uses:
 
-- save games;
-- player data;
-- game configuration;
-- statistics;
-- progression;
-- persistent world data.
+* save games;
+* player data;
+* game configuration;
+* statistics;
+* progression;
+* persistent world data.
 
 ## Example API
 
@@ -157,13 +158,15 @@ JarEngine
    └── Multiplayer sync ─► /jarengine/middleware
 ```
 
+**Status:** Planned.
+
 ---
 
 # 3. JarEngine Multiplayer Middleware
 
 ## Goal
 
-Provide a **very fast local-network communication service** for synchronizing JarEngine multiplayer games.
+Provide a **fast local-network communication service** for synchronizing JarEngine multiplayer games.
 
 This is deliberately separate from the data service.
 
@@ -173,12 +176,12 @@ The main purpose is:
 
 Potential data:
 
-- player positions;
-- player actions;
-- entity states;
-- game events;
-- lobby information;
-- connection state.
+* player positions;
+* player actions;
+* entity states;
+* game events;
+* lobby information;
+* connection state.
 
 ## Possible architecture
 
@@ -194,14 +197,13 @@ JarbinLocalAPI
 JarEngine B
 ```
 
-The API could use a persistent connection rather than traditional request/response HTTP.
+The middleware should use persistent connections rather than traditional request/response HTTP where appropriate.
 
 Possible technologies to investigate:
 
-- WebSockets;
-- Server-Sent Events where appropriate;
-- UDP-based communication for latency-sensitive data;
-- an in-memory message broker implemented specifically for the project.
+* FastAPI WebSockets;
+* UDP-based communication for latency-sensitive data;
+* an in-memory message broker implemented specifically for the project.
 
 For the first implementation, **FastAPI WebSockets** would be the natural Python-only starting point.
 
@@ -223,6 +225,8 @@ A client could send:
 ```
 
 The middleware broadcasts the update to the other connected players.
+
+**Status:** Planned.
 
 ---
 
@@ -266,6 +270,8 @@ GET /config/jarengine
 ```
 
 This could also support application-specific configuration versions later.
+
+**Status:** Planned.
 
 ---
 
@@ -314,10 +320,12 @@ The logging service should be designed to avoid becoming a performance bottlenec
 
 Applications should ideally be able to:
 
-- buffer logs;
-- send them in batches;
-- optionally disable remote logging;
-- define minimum log levels.
+* buffer logs;
+* send them in batches;
+* optionally disable remote logging;
+* define minimum log levels.
+
+**Status:** Planned.
 
 ---
 
@@ -382,10 +390,11 @@ SERVICES
 ● JarEngine       ONLINE
 ● JarTest         ONLINE
 ○ XITViewer       OFFLINE
-● Caddy           ONLINE
 ```
 
 A timeout could automatically mark a service as offline.
+
+**Status:** Planned.
 
 ---
 
@@ -393,34 +402,50 @@ A timeout could automatically mark a service as offline.
 
 ## Goal
 
-Expose useful information about the Fedora machine.
+Expose useful information about the host machine.
 
-Potential endpoints:
+The current implementation provides system information and monitoring through:
 
 ```http
-GET /system
-GET /system/cpu
-GET /system/memory
-GET /system/disk
-GET /system/network
-GET /system/uptime
+GET /api/system
+GET /api/system/cpu
+GET /api/system/memory
+GET /api/system/disk
+GET /api/system/network
+GET /api/system/processes
+GET /api/system/sensors
+GET /api/system/system
 ```
 
-Example:
+Categories are used where appropriate:
 
-```json
-{
-    "hostname": "jarjarbin",
-    "cpu_usage": 23.4,
-    "memory_used": 8.2,
-    "memory_total": 15.5,
-    "uptime": 48231
-}
+```http
+GET /api/system/sensors?category=temperatures
+GET /api/system/sensors?category=fans
+GET /api/system/sensors?category=battery
+GET /api/system/processes?category=count
+GET /api/system/processes?category=pids
+GET /api/system/processes?category=processes
 ```
 
-This could use Python libraries such as `psutil`.
+The service currently exposes information such as:
 
-The information could then be displayed directly on the dashboard.
+* CPU usage and statistics;
+* memory usage;
+* disk usage and I/O;
+* network interfaces and connections;
+* running processes;
+* temperatures;
+* fans;
+* battery information;
+* boot time;
+* logged-in users.
+
+The implementation uses Python system libraries such as `psutil`.
+
+The web interface consumes this API to display the information through the local dashboard.
+
+**Status:** Implemented.
 
 ---
 
@@ -462,6 +487,8 @@ This could eventually become a small personal CI-like system.
 
 However, this is lower priority than the core API services.
 
+**Status:** Optional.
+
 ---
 
 # 9. Jarbin Notifications
@@ -486,12 +513,14 @@ POST /notifications
 
 Possible notification targets could eventually include:
 
-- the web dashboard;
-- a phone application;
-- desktop notifications;
-- other registered clients.
+* the web dashboard;
+* a phone application;
+* desktop notifications;
+* other registered clients.
 
 The service itself should remain generic.
+
+**Status:** Planned.
 
 ---
 
@@ -533,11 +562,11 @@ returns:
 
 It could eventually support:
 
-- text;
-- images;
-- timestamps;
-- source device;
-- clipboard history.
+* text;
+* images;
+* timestamps;
+* source device;
+* clipboard history.
 
 A possible architecture:
 
@@ -552,6 +581,8 @@ Phone clipboard
 ```
 
 For automatic synchronization, clients could maintain a WebSocket connection and receive clipboard-change events.
+
+**Status:** Planned.
 
 ---
 
@@ -629,6 +660,8 @@ project_update
 
 Each job maps to a known Python function or controlled command.
 
+**Status:** Planned.
+
 ---
 
 # 12. Personal Package / Cache Server
@@ -665,13 +698,15 @@ GET /packages/Jarbin-ToolKit-1.2.0.tar.gz
 
 The server could provide:
 
-- package metadata;
-- versions;
-- checksums;
-- upload/download;
-- optional automatic cleanup.
+* package metadata;
+* versions;
+* checksums;
+* upload/download;
+* optional automatic cleanup.
 
 This is **not intended to become a full PyPI/npm package registry**.
+
+**Status:** Planned.
 
 ---
 
@@ -681,7 +716,7 @@ This is **not intended to become a full PyPI/npm package registry**.
 
 Provide a centralized API for Jarbin's personal and project documentation.
 
-This is one of the strongest ideas because it could connect all the other projects.
+This could connect the other services and provide a single documentation layer for the local infrastructure.
 
 Possible structure:
 
@@ -716,17 +751,19 @@ A document could contain:
 
 The documentation API could later expose:
 
-- Markdown documents;
-- project indexes;
-- API references;
-- changelogs;
-- examples;
-- tutorials;
-- search.
+* Markdown documents;
+* project indexes;
+* API references;
+* changelogs;
+* examples;
+* tutorials;
+* search.
+
+**Status:** Planned.
 
 ---
 
-# 14. Proper Web Dashboard
+# 14. Web Dashboard
 
 ## Goal
 
@@ -736,33 +773,35 @@ Make:
 http://jarjarbin.local/
 ```
 
-the main entry point to JarbinLocalAPI.
+the main human-facing entry point to JarbinLocalAPI.
 
-Instead of returning:
+The dashboard provides a web interface over the local services while the REST/WebSocket API remains the machine-facing interface.
 
-```json
-{
-    "message": "Hello World!"
-}
+The current implementation already provides a system dashboard with dedicated views for:
+
+```text
+/system
+/system/cpu
+/system/memory
+/system/battery
+/system/disk
+/system/network
+/system/processes
+/system/system
+/system/temperatures
+/system/top_processes
 ```
-
-the root endpoint would return a complete dashboard.
 
 ## Python-only requirement
 
-The dashboard should use **only Python code**.
+The application-side implementation should remain Python-based.
 
-A practical approach is to use **server-side HTML generation from Python**, rather than introducing a JavaScript frontend framework.
-
-The FastAPI application can render HTML using a Python templating system such as **Jinja2**.
+FastAPI handles routing and service access, while Jinja2 is used for server-side HTML rendering.
 
 Architecture:
 
 ```text
 Browser
-   │
-   ▼
-GET /
    │
    ▼
 FastAPI
@@ -775,7 +814,7 @@ FastAPI
    └── Other services
    │
    ▼
-Jinja2 template
+Jinja2 templates
    │
    ▼
 HTML
@@ -784,58 +823,15 @@ HTML
 Browser
 ```
 
-The project could therefore remain entirely Python on the application side:
+The dashboard does not require a frontend framework.
 
-```text
-jarbinlocalapi/
-├── main.py
-├── api/
-│   ├── github.py
-│   ├── jarengine.py
-│   ├── config.py
-│   ├── logs.py
-│   ├── services.py
-│   ├── system.py
-│   ├── notifications.py
-│   ├── clipboard.py
-│   ├── jobs.py
-│   ├── packages.py
-│   └── docs.py
-│
-├── services/
-│   ├── github.py
-│   ├── storage.py
-│   ├── logging.py
-│   ├── registry.py
-│   └── ...
-│
-├── templates/
-│   ├── base.html
-│   ├── dashboard.html
-│   ├── github.html
-│   ├── services.html
-│   ├── logs.html
-│   └── docs.html
-│
-└── data/
-```
+A JavaScript-free implementation can use:
 
-### Important interpretation of "Python only"
-
-The backend and rendering logic can be entirely Python.
-
-However, a browser ultimately requires HTML/CSS to display a web interface. Jinja2 would generate the HTML from Python-side data.
-
-If the goal is **literally zero JavaScript**, the dashboard can still be fully functional using:
-
-- normal HTML forms;
-- links;
-- server-side rendering;
-- automatic page refreshes;
-- CSS;
-- FastAPI endpoints.
-
-For live information, a JavaScript-free first version could simply refresh the page periodically through normal HTML mechanisms.
+* normal HTML links;
+* server-side rendering;
+* HTML forms;
+* CSS;
+* automatic page refreshes.
 
 For example:
 
@@ -843,7 +839,7 @@ For example:
 <meta http-equiv="refresh" content="5">
 ```
 
-This keeps the implementation extremely simple.
+JavaScript may be used where useful for live updates, but the core dashboard should not depend on a JavaScript framework.
 
 ### Dashboard concept
 
@@ -853,23 +849,22 @@ This keeps the implementation extremely simple.
 ├─────────────────────────────────────────────────┤
 │                                                 │
 │ SYSTEM                                          │
-│ CPU       23%       RAM       8.2 / 15.5 GB    │
-│ Disk      421 GB    Uptime    14h 23m          │
+│ CPU       23%       RAM       8.2 / 15.5 GB     │
+│ Disk      421 GB    Uptime    14h 23m           │
 │                                                 │
 ├─────────────────────────────────────────────────┤
 │ SERVICES                                        │
 │                                                 │
-│ ● JarEngine          ONLINE                    │
-│ ● JarTest            ONLINE                    │
-│ ○ XITViewer          OFFLINE                   │
-│ ● Caddy              ONLINE                    │
+│ ● JarEngine          ONLINE                     │
+│ ● JarTest            ONLINE                     │
+│ ○ XITViewer          OFFLINE                    │
 │                                                 │
 ├─────────────────────────────────────────────────┤
 │ RECENT LOGS                                     │
 │                                                 │
-│ INFO     JarEngine started                     │
-│ INFO     Save completed                        │
-│ WARNING  Texture missing                       │
+│ INFO     JarEngine started                      │
+│ INFO     Save completed                         │
+│ WARNING  Texture missing                        │
 │                                                 │
 ├─────────────────────────────────────────────────┤
 │ QUICK ACCESS                                    │
@@ -880,10 +875,12 @@ This keeps the implementation extremely simple.
 └─────────────────────────────────────────────────┘
 ```
 
-The dashboard would therefore become the **human-facing interface**, while the REST/WebSocket API remains the **machine-facing interface**.
+The dashboard should therefore remain the **human-facing interface**, while the API remains the **machine-facing interface**.
+
+**Status:** Partially implemented.
 
 ---
 
 The key principle should be:
 
-> **JarbinLocalAPI provides reusable infrastructure; individual applications consume that infrastructure without needing to implement the same functionality themselves.**
+> **JarbinLocalAPI provides reusable local infrastructure; individual applications consume that infrastructure without needing to implement the same functionality themselves.**
