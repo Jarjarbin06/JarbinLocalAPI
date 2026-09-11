@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ title }} ({{ version }}) - Top Processes</title>
+
+    <link rel="stylesheet" href="/app/static/css/main.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Top Processes</h1>
+    <p>{{ title }} {{ version }}</p>
+    <br>
+    <button onclick="history.back()">Go Back</button>
+</header>
+
+<main>
+    <div class="grid">
+
+        <section class="card wide">
+            <h2>Processes</h2>
+
+            {% for process in top_processes.processes|sort(attribute="cpu_percent", reverse=true) %}
+
+            {% if loop.index <= 10 %}
+
+            <div class="process-item">
+
+                <div class="row row-wrap">
+                    <span>
+                        <strong id="top-process-{{ loop.index0 }}-name">
+                            {{ process.name }}
+                        </strong>
+
+                        <span class="muted" id="top-process-{{ loop.index0 }}-pid">
+                            PID {{ process.pid }}
+                        </span>
+                    </span>
+
+                    <strong id="top-process-{{ loop.index0 }}-cpu">
+                        {{ process.cpu_percent }}% CPU
+                    </strong>
+                </div>
+
+                <div class="row row-wrap">
+                    <span class="label">
+                        Memory
+                    </span>
+
+                    <strong id="top-process-{{ loop.index0 }}-memory">
+                        {{ process.memory_percent }}%
+                    </strong>
+                </div>
+
+                <div class="row row-wrap">
+                    <span class="label">
+                        Status
+                    </span>
+
+                    <strong id="top-process-{{ loop.index0 }}-status">
+                        {{ process.status }}
+                    </strong>
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            {% else %}
+
+            <div class="label">
+                No processes available.
+            </div>
+
+            {% endfor %}
+
+        </section>
+
+    </div>
+</main>
+
+<script src="/app/static/js/system/top_processes.js"></script>
+
+</body>
+</html>

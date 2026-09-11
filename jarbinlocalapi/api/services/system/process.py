@@ -1,9 +1,20 @@
+from typing import Any
 import psutil
 
 
 def get_processes(
-    ) -> list[psutil.Process]:
-    return list(psutil.process_iter())
+    ) -> list[dict[str, Any]]:
+    return [
+        {
+            "pid": process.pid,
+            "name": process.name(),
+            "status": process.status(),
+            "cpu_percent": process.cpu_percent(),
+            "memory_info": process.memory_info()._asdict(),
+            "memory_percent": process.memory_percent(),
+        }
+        for process in list(psutil.process_iter())
+    ]
 
 
 def get_process(

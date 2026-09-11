@@ -9,7 +9,7 @@ from jarbinlocalapi import (
 
 
 @app.get("/", response_class=HTMLResponse)
-async def get_root():
+async def get_app():
     """
         Route: `/app`
 

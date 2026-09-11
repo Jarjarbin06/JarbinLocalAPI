@@ -17,7 +17,7 @@ from jarbinlocalapi.api.services.system.overview import (
 #-------------------- ROOT --------------------#
 
 @api.get("/system")
-async def get_system(type: Literal[
+async def get_api_system(type: Literal[
             "cpu",
             "memory",
             "disk",
@@ -45,7 +45,7 @@ async def get_system(type: Literal[
 #-------------------- SYSTEMS --------------------#
 
 @api.get("/system/cpu")
-async def get_system_cpu(category: Literal[
+async def get_api_system_cpu(category: Literal[
             "percent",
             "times",
             "times_percent",
@@ -71,7 +71,7 @@ async def get_system_cpu(category: Literal[
 
 
 @api.get("/system/memory")
-async def get_system_memory(category: Literal[
+async def get_api_system_memory(category: Literal[
             "virtual",
             "swap",
         ] | None = Query(default=None)
@@ -92,7 +92,7 @@ async def get_system_memory(category: Literal[
 
 
 @api.get("/system/disk")
-async def get_system_disk(category: Literal[
+async def get_api_system_disk(category: Literal[
             "usage",
             "partitions",
             "io",
@@ -114,7 +114,7 @@ async def get_system_disk(category: Literal[
 
 
 @api.get("/system/network")
-async def get_system_network(category: Literal[
+async def get_api_system_network(category: Literal[
             "interfaces",
             "interface_status",
             "io",
@@ -137,7 +137,7 @@ async def get_system_network(category: Literal[
 
 
 @api.get("/system/processes")
-async def get_system_processes(category: Literal[
+async def get_api_system_processes(category: Literal[
             "count",
             "pids",
             "processes",
@@ -159,7 +159,7 @@ async def get_system_processes(category: Literal[
 
 
 @api.get("/system/sensors")
-async def get_system_sensors(category: Literal[
+async def get_api_system_sensors(category: Literal[
             "temperatures",
             "fans",
             "battery",
@@ -181,7 +181,7 @@ async def get_system_sensors(category: Literal[
 
 
 @api.get("/system/system")
-async def get_system_system(category: Literal[
+async def get_api_system_system(category: Literal[
             "boot_time",
             "users",
         ] | None = Query(default=None)

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ title }} ({{ version }}) - Network</title>
+
+<link rel="stylesheet" href="/app/static/css/main.css">
+
+</head>
+
+<body>
+
+<header>
+    <h1>Network</h1>
+    <p>{{ title }} {{ version }}</p>
+    <br>
+    <button onclick="history.back()">Go Back</button>
+</header>
+
+<main>
+    <div class="grid">
+
+    <!-- INTERFACES -->
+    <section class="card wide">
+        <h2>Interfaces</h2>
+
+        {% for name, addresses in network.interfaces.items() %}
+        <div class="process-item">
+
+            <h3>{{ name }}</h3>
+
+            {% for address in addresses %}
+            <div class="row row-wrap">
+                <span class="label">
+                    {{ address.family }}
+                </span>
+
+                <strong>
+                    {{ address.address }}
+                </strong>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% else %}
+        <span class="muted">
+            No network interfaces found.
+        </span>
+        {% endfor %}
+    </section>
+
+
+    <!-- INTERFACE STATUS -->
+    <section class="card">
+        <h2>Interface Status</h2>
+
+        {% for name, status in network.interface_status.items() %}
+        <div class="process-item">
+
+            <div class="row row-wrap">
+                <span class="label">
+                    {{ name }}
+                </span>
+
+                <strong>
+                    {% if status.isup %}
+                        UP
+                    {% else %}
+                        DOWN
+                    {% endif %}
+                </strong>
+            </div>
+
+            <div class="row row-wrap">
+                <span class="label">Speed</span>
+                <strong>{{ status.speed }} Mbps</strong>
+            </div>
+
+            <div class="row row-wrap">
+                <span class="label">MTU</span>
+                <strong>{{ status.mtu }}</strong>
+            </div>
+
+        </div>
+        {% endfor %}
+    </section>
+
+
+    <!-- NETWORK I/O -->
+    <section class="card">
+        <h2>Network I/O</h2>
+
+        {% for name, counter in network.io.items() %}
+        <div class="process-item">
+
+            <h3>{{ name }}</h3>
+
+            {% for field, value in counter.items() %}
+            <div class="row row-wrap">
+                <span class="label">{{ field }}</span>
+
+                <strong>{{ value }}</strong>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% endfor %}
+    </section>
+
+
+    <!-- CONNECTIONS -->
+    <section class="card wide">
+        <h2>Connections</h2>
+
+        {% for connection in network.connections %}
+        <div class="process-item">
+
+            {% for name, value in connection.items() %}
+            <div class="row row-wrap">
+                <span class="label">{{ name }}</span>
+
+                <strong>{{ value }}</strong>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% else %}
+        <span class="muted">
+            No network connections found.
+        </span>
+        {% endfor %}
+    </section>
+
+</div>
+
+</main>
+
+<script src="/app/static/js/system/network.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ title }} ({{ version }}) - Temperatures</title>
+
+    <link rel="stylesheet" href="/app/static/css/main.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Temperatures</h1>
+    <p>{{ title }} {{ version }}</p>
+    <br>
+    <button onclick="history.back()">Go Back</button>
+</header>
+
+<main>
+    <div class="grid">
+
+        <section class="card wide">
+            <h2>Temperature Sensors</h2>
+
+            {% for name, entries in temperatures.temperatures.items() %}
+
+            <h3>{{ name }}</h3>
+
+            {% for temperature in entries %}
+            <div class="row">
+                <span class="label">
+                    {{ temperature.label or "Temperature" }}
+                </span>
+
+                <strong id="temperature-{{ name }}-{{ loop.index0 }}">
+                    {{ temperature.current }}°C
+                </strong>
+            </div>
+            {% endfor %}
+
+            {% else %}
+
+            <div class="label">
+                No temperature sensors available.
+            </div>
+
+            {% endfor %}
+
+        </section>
+
+    </div>
+</main>
+
+<script src="/app/static/js/system/temperatures.js"></script>
+
+</body>
+</html>

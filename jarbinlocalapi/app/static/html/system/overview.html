@@ -120,28 +120,44 @@
             <section class="card">
                 <h2>Storage</h2>
 
-                <div id="overview-disk">
-                    {% for disk in system.disk.usage %}
-                    <div class="row">
-                        <span>
-                            <strong>{{ disk.mountpoint }}</strong>
-                        </span>
+                <div class="row">
+                    <span class="label">Usage</span>
 
-                        <strong>
-                            <span id="overview-disk-percent-{{ loop.index }}">
-                                {{ disk.percent }}
-                            </span>%
-                        </strong>
-                    </div>
+                    <strong id="overview-disk-percent">
+                        {{ system.disk.usage.percent }}%
+                    </strong>
+                </div>
 
-                    <div class="bar">
-                        <div
-                            class="bar-fill"
-                            id="overview-disk-bar-{{ loop.index }}"
-                            style="width: {{ disk.percent }}%;"
-                        ></div>
-                    </div>
-                    {% endfor %}
+                <div class="bar">
+                    <div
+                        class="bar-fill"
+                        id="overview-disk-usage-bar"
+                        style="width: {{ system.disk.usage.percent }}%;"
+                    ></div>
+                </div>
+
+                <div class="row">
+                    <span class="label">Used</span>
+
+                    <strong id="overview-disk-used">
+                        {{ system.disk.usage.used }}
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span class="label">Free</span>
+
+                    <strong id="overview-disk-free">
+                        {{ system.disk.usage.free }}
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span class="label">Total</span>
+
+                    <strong id="overview-disk-total">
+                        {{ system.disk.usage.total }}
+                    </strong>
                 </div>
             </section>
         </a>
@@ -174,7 +190,7 @@
 
 
         <!-- PROCESSES -->
-        <a href="/app/system/process" class="card-link">
+        <a href="/app/system/processes" class="card-link">
             <section class="card">
                 <h2>Processes</h2>
 
@@ -184,6 +200,13 @@
 
                 <div class="label">
                     Running processes
+                </div>
+
+                <div class="row">
+                    <span class="label">Process IDs</span>
+                    <strong id="overview-process-pid-count">
+                        {{ system.processes.pids|length }}
+                    </strong>
                 </div>
             </section>
         </a>
@@ -282,31 +305,36 @@
 
 
         <!-- TOP PROCESSES -->
-        <a href="/app/system/processes" class="card-link">
+        <a href="/app/system/top_processes" class="card-link">
             <section class="card wide">
-                <h2>Processes</h2>
+                <h2>Top Processes</h2>
 
                 <ul id="overview-processes">
-                    {% for process in system.processes.processes %}
-                    <li>
-                        <div class="row">
-                            <span>
-                                <strong>{{ process.name }}</strong>
-                                <span class="muted">
-                                    (PID {{ process.pid }})
+                    {% for process in system.processes.processes|sort(attribute="cpu_percent", reverse=true) %}
+                        {% if loop.index <= 5 %}
+                        <li>
+                            <div class="row row-wrap">
+                                <span>
+                                    <strong>
+                                        {{ process.name }}
+                                    </strong>
+
+                                    <span class="muted">
+                                        (PID {{ process.pid }})
+                                    </span>
                                 </span>
-                            </span>
 
-                            <strong>
-                                {{ process.cpu_percent }}% CPU
-                            </strong>
-                        </div>
+                                <strong>
+                                    {{ process.cpu_percent }}% CPU
+                                </strong>
+                            </div>
 
-                        <div class="label">
-                            Memory: {{ process.memory_percent }}%
-                            · Status: {{ process.status }}
-                        </div>
-                    </li>
+                            <div class="label">
+                                Memory: {{ process.memory_percent }}%
+                                · Status: {{ process.status }}
+                            </div>
+                        </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </section>
@@ -314,8 +342,6 @@
 
     </div>
 </main>
-
-<script src="/app/static/js/system/overview.js"></script>
 
 </body>
 </html>

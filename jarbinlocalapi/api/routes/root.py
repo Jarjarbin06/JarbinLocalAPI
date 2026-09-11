@@ -4,7 +4,7 @@ from jarbinlocalapi.api import api
 #-------------------- ROOT --------------------#
 
 @api.get("/")
-async def get_root():
+async def get_api():
     """
         Route: `/api`
 

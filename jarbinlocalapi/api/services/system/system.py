@@ -1,3 +1,4 @@
+from typing import Any
 import psutil
 
 
@@ -7,5 +8,8 @@ def get_boot_time(
 
 
 def get_users(
-    ) -> list[psutil._ntuples.suser]:
-    return psutil.users()
+    ) -> list[dict[str, Any]]:
+    return [
+        user._asdict()
+        for user in psutil.users()
+    ]

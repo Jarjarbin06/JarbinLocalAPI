@@ -29,7 +29,7 @@ async def system_error_handler(
         exc: SystemInfoError,
     ):
     if request.url.path.startswith("/app"):
-        template = templates.get_template("505.html")
+        template = templates.get_template("500.html")
 
         content = template.render(
             title=title,

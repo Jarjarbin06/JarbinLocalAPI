@@ -162,10 +162,10 @@ footer {
 
 .grid {
     display: grid;
-
+    width: 100%;
+    min-width: 0;
     grid-template-columns:
-        repeat(auto-fit, minmax(280px, 1fr));
-
+        repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: 16px;
 }
 
@@ -202,12 +202,25 @@ footer {
  * ================================================================ */
 
 .card {
+    width: 100%;
     min-width: 0;
-
+    max-width: 100%;
     padding: 20px;
-
     background: #fff;
     border: 1px solid #ddd;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+.card h2,
+.card h3,
+.card h4,
+.card p,
+.card span,
+.card strong,
+.card div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .card h2 {
@@ -318,15 +331,35 @@ footer {
 
 .row {
     display: flex;
-
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
     justify-content: space-between;
     align-items: center;
-
     gap: 16px;
-
     padding: 8px 0;
-
     border-bottom: 1px solid #eee;
+    overflow-wrap: anywhere;
+}
+
+.row > * {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.row-wrap {
+    flex-wrap: wrap;
+}
+
+.process-item {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    overflow-wrap: anywhere;
 }
 
 .row:last-child {
@@ -717,22 +750,6 @@ textarea {
 }
 
 @media (max-width: 600px) {
-    main {
-        padding: 16px;
-    }
-
-    header {
-        padding: 16px;
-    }
-
-    footer {
-        padding: 16px;
-    }
-
-    header h1 {
-        font-size: 24px;
-    }
-
     .grid,
     .grid-2,
     .grid-3,
@@ -744,11 +761,8 @@ textarea {
         grid-column: auto;
     }
 
-    .card {
-        padding: 16px;
-    }
-
     .row {
         gap: 8px;
+        align-items: flex-start;
     }
 }

@@ -33,9 +33,9 @@ from .sensors import (
     get_battery,
 )
 from .system import (
-    get_boot_time
+    get_boot_time,
+    get_users
 )
-from .users import get_users
 from jarbinlocalapi.api.utils.retry import retry
 
 
@@ -84,42 +84,16 @@ def get_processes_overview(
     return {
         "count": retry(get_process_count),
         "pids": retry(get_process_pids),
-        "processes": [
-            {
-                "pid": process.pid,
-                "name": process.name(),
-                "status": process.status(),
-                "cpu_percent": process.cpu_percent(),
-                "memory_info": process.memory_info()._asdict(),
-                "memory_percent": process.memory_percent(),
-            }
-            for process in retry(get_processes)
-        ],
+        "processes": retry(get_processes),
     }
 
 
 def get_sensors_overview(
     ) -> dict:
     return {
-        "temperatures": {
-            name: [
-                temperature._asdict()
-                for temperature in entries
-            ]
-            for name, entries in retry(get_temperatures).items()
-        },
-        "fans": {
-            name: [
-                fan._asdict()
-                for fan in entries
-            ]
-            for name, entries in retry(get_fans).items()
-        },
-        "battery": (
-            retry(get_battery)._asdict()
-            if retry(get_battery) is not None
-            else None
-        ),
+        "temperatures": retry(get_temperatures),
+        "fans": retry(get_fans),
+        "battery": retry(get_battery),
     }
 
 
@@ -127,10 +101,7 @@ def get_system_overview(
     ) -> dict:
     return {
         "boot_time": retry(get_boot_time),
-        "users": [
-            user._asdict()
-            for user in retry(get_users)
-        ],
+        "users": retry(get_users),
     }
 
 

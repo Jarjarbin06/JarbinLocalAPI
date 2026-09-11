@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ title }} ({{ version }}) - System</title>
+
+<link rel="stylesheet" href="/app/static/css/main.css">
+
+</head>
+
+<body>
+
+<header>
+    <h1>System</h1>
+    <p>{{ title }} {{ version }}</p>
+    <br>
+    <button onclick="history.back()">Go Back</button>
+</header>
+
+<main>
+    <div class="grid">
+
+    <!-- BOOT TIME -->
+    <section class="card">
+        <h2>Boot Time</h2>
+
+        <div class="row">
+            <span class="label">Unix Timestamp</span>
+
+            <strong id="system-boot-time">
+                {{ system.boot_time }}
+            </strong>
+        </div>
+    </section>
+
+
+    <!-- USERS -->
+    <section class="card wide">
+        <h2>Users</h2>
+
+        {% for user in system.users %}
+        <div class="process-item">
+
+            {% for name, value in user.items() %}
+            <div class="row row-wrap">
+                <span class="label">{{ name }}</span>
+
+                <strong id="system-user-{{ loop.index }}-{{ name }}">
+                    {{ value }}
+                </strong>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% else %}
+        <span class="muted">
+            No logged-in users.
+        </span>
+        {% endfor %}
+
+    </section>
+
+</div>
+
+</main>
+
+<script src="/app/static/js/system/system.js"></script>
+
+</body>
+</html>
