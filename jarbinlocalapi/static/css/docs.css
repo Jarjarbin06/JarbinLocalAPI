@@ -1,0 +1,142 @@
+body {
+    margin: 0;
+    padding: 40px 20px;
+    background: #ffffff;
+    color: #24292f;
+    font-family:
+        "JetBrains Mono",
+        "Fira Code",
+        "Cascadia Code",
+        Consolas,
+        monospace;
+    line-height: 1.6;
+}
+
+main {
+    width: min(100%, 1000px);
+    margin: 0 auto;
+}
+
+h1 {
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #d0d7de;
+    font-size: 2em;
+}
+
+h2 {
+    margin-top: 32px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #d8dee4;
+    font-size: 1.5em;
+}
+
+h3 {
+    margin-top: 28px;
+    font-size: 1.25em;
+}
+
+p {
+    margin: 16px 0;
+}
+
+a {
+    color: #0969da;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+blockquote {
+    margin: 16px 0;
+    padding: 0 16px;
+    color: #57606a;
+    border-left: 4px solid #d0d7de;
+}
+
+code {
+    padding: 2px 5px;
+    background: #f6f8fa;
+    border: 1px solid #d8dee4;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.9em;
+}
+
+pre {
+    margin: 20px 0;
+    padding: 16px;
+    overflow-x: auto;
+    background: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    line-height: 1.5;
+}
+
+pre code {
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+}
+
+ul,
+ol {
+    padding-left: 28px;
+}
+
+li {
+    margin: 4px 0;
+}
+
+table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #d0d7de;
+}
+
+th {
+    background: #f6f8fa;
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background: #f6f8fa;
+}
+
+hr {
+    height: 1px;
+    margin: 32px 0;
+    border: 0;
+    background: #d0d7de;
+}
+
+img {
+    max-width: 100%;
+}
+
+@media (max-width: 700px) {
+    body {
+        padding: 24px 14px;
+    }
+
+    pre {
+        font-size: 0.85em;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}

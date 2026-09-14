@@ -1,0 +1,3 @@
+"""
+Internal/domain data structures
+"""

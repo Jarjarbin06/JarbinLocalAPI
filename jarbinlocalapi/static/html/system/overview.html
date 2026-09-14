@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ title }} ({{ version }}) - System Overview</title>
+
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+
+<body>
+
+<header>
+    <h1>System Overview</h1>
+    <p>{{ title }} {{ version }}</p>
+    <br>
+    <button onclick="history.back()">Go Back</button>
+</header>
+
+<main>
+    <div class="grid">
+
+        <!-- CPU -->
+        <a href="/app/system/cpu" class="card-link">
+            <section class="card">
+                <h2>CPU</h2>
+
+                <div class="row">
+                    <span class="label">Usage</span>
+                    <strong id="overview-cpu-percent">
+                        {{ system.cpu.percent }}%
+                    </strong>
+                </div>
+
+                <div class="bar">
+                    <div
+                        class="bar-fill"
+                        id="overview-cpu-usage-bar"
+                        style="width: {{ system.cpu.percent }}%;"
+                    ></div>
+                </div>
+
+                <div class="row">
+                    <span class="label">Logical CPUs</span>
+                    <strong id="overview-cpu-count">
+                        {{ system.cpu.count }}
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span class="label">Frequency</span>
+                    <strong id="overview-cpu-frequency">
+                        {{ system.cpu.frequency.current }} MHz
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span class="label">Load (1 min)</span>
+                    <strong id="overview-cpu-load">
+                        {{ system.cpu.load[0] }}
+                    </strong>
+                </div>
+            </section>
+        </a>
+
+
+        <!-- MEMORY -->
+        <a href="/app/system/memory" class="card-link">
+            <section class="card">
+                <h2>Memory</h2>
+
+                <div class="value" id="overview-memory-percent">
+                    {{ system.memory.virtual.percent }}%
+                </div>
+
+                <div class="label">RAM usage</div>
+
+                <div class="bar">
+                    <div
+                        class="bar-fill"
+                        id="overview-memory-usage-bar"
+                        style="width: {{ system.memory.virtual.percent }}%;"
+                    ></div>
+                </div>
+
+                <div class="row">
+                    <span class="label">Used</span>
+                    <strong id="overview-memory-used">
+                        {{ system.memory.virtual.used }}
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span class="label">Available</span>
+                    <strong id="overview-memory-available">
+                        {{ system.memory.virtual.available }}
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span class="label">Total</span>
+                    <strong id="overview-memory-total">
+                        {{ system.memory.virtual.total }}
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span class="label">Swap</span>
+                    <strong id="overview-swap-percent">
+                        {{ system.memory.swap.percent }}%
+                    </strong>
+                </div>
+            </section>
+        </a>
+
+
+        <!-- DISK -->
+        <a href="/app/system/disk" class="card-link">
+            <section class="card">
+                <h2>Storage</h2>
+
+                <div class="row">
+                    <span class="label">Usage</span>
+
+                    <strong id="overview-disk-percent">
+                        {{ system.disk.usage.percent }}%
+                    </strong>
+                </div>
+
+                <div class="bar">
+                    <div
+                        class="bar-fill"
+                        id="overview-disk-usage-bar"
+                        style="width: {{ system.disk.usage.percent }}%;"
+                    ></div>
+                </div>
+
+                <div class="row">
+                    <span class="label">Used</span>
+
+                    <strong id="overview-disk-used">
+                        {{ system.disk.usage.used }}
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span class="label">Free</span>
+
+                    <strong id="overview-disk-free">
+                        {{ system.disk.usage.free }}
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span class="label">Total</span>
+
+                    <strong id="overview-disk-total">
+                        {{ system.disk.usage.total }}
+                    </strong>
+                </div>
+            </section>
+        </a>
+
+
+        <!-- NETWORK -->
+        <a href="/app/system/network" class="card-link">
+            <section class="card">
+                <h2>Network</h2>
+
+                <div id="overview-network">
+                    {% for interface, status in system.network.interface_status.items() %}
+                    <div class="row">
+                        <span id="overview-network-name-{{ loop.index }}">
+                            {{ interface }}
+                        </span>
+
+                        <strong id="overview-network-status-{{ loop.index }}">
+                            {% if status.isup %}
+                                UP
+                            {% else %}
+                                DOWN
+                            {% endif %}
+                        </strong>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </a>
+
+
+        <!-- PROCESSES -->
+        <a href="/app/system/processes" class="card-link">
+            <section class="card">
+                <h2>Processes</h2>
+
+                <div class="value" id="overview-process-count">
+                    {{ system.processes.count }}
+                </div>
+
+                <div class="label">
+                    Running processes
+                </div>
+
+                <div class="row">
+                    <span class="label">Process IDs</span>
+                    <strong id="overview-process-pid-count">
+                        {{ system.processes.pids|length }}
+                    </strong>
+                </div>
+            </section>
+        </a>
+
+
+        <!-- SYSTEM -->
+        <a href="/app/system/system" class="card-link">
+            <section class="card">
+                <h2>System</h2>
+
+                <div class="row">
+                    <span class="label">Boot time</span>
+                    <strong id="overview-system-boot-time">
+                        {{ system.system.boot_time }}
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span class="label">Users</span>
+                    <strong id="overview-system-users">
+                        {{ system.system.users|length }}
+                    </strong>
+                </div>
+            </section>
+        </a>
+
+
+        <!-- BATTERY -->
+        {% if system.sensors.battery %}
+        <a href="/app/system/battery" class="card-link">
+            <section class="card">
+                <h2>Battery</h2>
+
+                <div class="value" id="overview-battery-percent">
+                    {{ system.sensors.battery.percent }}%
+                </div>
+
+                <div class="bar">
+                    <div
+                        class="bar-fill"
+                        id="overview-battery-bar"
+                        style="width: {{ system.sensors.battery.percent }}%;"
+                    ></div>
+                </div>
+
+                <div class="row">
+                    <span class="label">Status</span>
+                    <strong id="overview-battery-status">
+                        {% if system.sensors.battery.power_plugged %}
+                            Charging / Plugged
+                        {% else %}
+                            On battery
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span class="label">Time left</span>
+                    <strong id="overview-battery-time">
+                        {{ system.sensors.battery.secsleft }}
+                    </strong>
+                </div>
+            </section>
+        </a>
+        {% endif %}
+
+
+        <!-- TEMPERATURES -->
+        <a href="/app/system/temperatures" class="card-link">
+            <section class="card wide">
+                <h2>Temperatures</h2>
+
+                <div id="overview-temperatures">
+                    {% for sensor, entries in system.sensors.temperatures.items() %}
+                        <h3>{{ sensor }}</h3>
+
+                        {% for temperature in entries %}
+                        <div class="row">
+                            <span>
+                                {{ temperature.label or "Temperature" }}
+                            </span>
+
+                            <strong>
+                                {{ temperature.current }}°C
+                            </strong>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <span class="muted">
+                            No temperature sensors available.
+                        </span>
+                    {% endfor %}
+                </div>
+            </section>
+        </a>
+
+
+        <!-- TOP PROCESSES -->
+        <a href="/app/system/top_processes" class="card-link">
+            <section class="card wide">
+                <h2>Top Processes</h2>
+
+                <ul id="overview-processes">
+                    {% for process in system.processes.processes|sort(attribute="cpu_percent", reverse=true) %}
+                        {% if loop.index <= 5 %}
+                        <li>
+                            <div class="row row-wrap">
+                                <span>
+                                    <strong>
+                                        {{ process.name }}
+                                    </strong>
+
+                                    <span class="muted">
+                                        (PID {{ process.pid }})
+                                    </span>
+                                </span>
+
+                                <strong>
+                                    {{ process.cpu_percent }}% CPU
+                                </strong>
+                            </div>
+
+                            <div class="label">
+                                Memory: {{ process.memory_percent }}%
+                                · Status: {{ process.status }}
+                            </div>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+    </div>
+</main>
+
+</body>
+</html>

@@ -2,7 +2,7 @@ from fastapi.responses import HTMLResponse
 from httpx import AsyncClient
 
 from jarbinlocalapi.app import app
-from jarbinlocalapi.app.templates.system import (
+from jarbinlocalapi.templates.system import (
     template_overview,
     template_cpu,
     template_memory,

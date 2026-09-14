@@ -6,7 +6,7 @@ API
 from pathlib import Path
 from fastapi import APIRouter
 
-from jarbinlocalapi.main import jarbinlocalapi
+from jarbinlocalapi.root import jarbinlocalapi
 
 api = APIRouter(prefix="/api")
 

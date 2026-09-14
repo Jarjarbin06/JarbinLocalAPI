@@ -6,7 +6,8 @@ WEB app
 from pathlib import Path
 from fastapi import APIRouter
 
-from jarbinlocalapi.main import jarbinlocalapi
+from jarbinlocalapi.root import jarbinlocalapi
+
 
 app = APIRouter(prefix="/app")
 

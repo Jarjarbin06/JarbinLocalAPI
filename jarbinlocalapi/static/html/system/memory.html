@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ title }} ({{ version }}) - Memory</title>
+
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Memory</h1>
+    <p>{{ title }} {{ version }}</p>
+    <br>
+    <button onclick="history.back()">Go Back</button>
+</header>
+
+<main>
+    <div class="grid">
+
+        <!-- VIRTUAL MEMORY -->
+        <section class="card">
+            <h2>Virtual Memory</h2>
+
+            <div class="value" id="memory-percent">
+                {{ memory.virtual.percent }}%
+            </div>
+
+            <div class="bar">
+                <div
+                    class="bar-fill"
+                    id="memory-usage-bar"
+                    style="width: {{ memory.virtual.percent }}%;"
+                ></div>
+            </div>
+
+            {% for name, value in memory.virtual.items() %}
+            {% if name != "percent" %}
+            <div class="row">
+                <span class="label">{{ name }}</span>
+
+                <strong id="memory-virtual-{{ name }}">
+                    {{ value }}
+                </strong>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </section>
+
+
+        <!-- SWAP MEMORY -->
+        <section class="card">
+            <h2>Swap Memory</h2>
+
+            <div class="value" id="swap-percent">
+                {{ memory.swap.percent }}%
+            </div>
+
+            <div class="bar">
+                <div
+                    class="bar-fill"
+                    id="swap-usage-bar"
+                    style="width: {{ memory.swap.percent }}%;"
+                ></div>
+            </div>
+
+            {% for name, value in memory.swap.items() %}
+            {% if name != "percent" %}
+            <div class="row">
+                <span class="label">{{ name }}</span>
+
+                <strong id="memory-swap-{{ name }}">
+                    {{ value }}
+                </strong>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </section>
+
+    </div>
+</main>
+
+<script src="/static/js/system/memory.js"></script>
+
+</body>
+</html>

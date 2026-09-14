@@ -57,7 +57,7 @@ network:
 	@echo
 
 run:
-	$(PYTHON_CAP) -m uvicorn jarbinlocalapi.main:jarbinlocalapi --host 0.0.0.0 --port 80
+	$(PYTHON_CAP) -m uvicorn jarbinlocalapi.main:main_app --host 0.0.0.0 --port 80
 
 start:
 	@mkdir -p $(PID_DIR)
@@ -65,7 +65,7 @@ start:
 		echo "$(NAME) is already running (PID $$(cat $(PID_FILE)))"; \
 	else \
 		echo "Starting $(NAME)..."; \
-		$(PYTHON_CAP) -m uvicorn jarbinlocalapi.main:jarbinlocalapi --host 0.0.0.0 --port 80 > $(LOG_FILE) 2>&1 & \
+		$(PYTHON_CAP) -m uvicorn jarbinlocalapi.main:main_app --host 0.0.0.0 --port 80 > $(LOG_FILE) 2>&1 & \
 		echo $$! > $(PID_FILE); \
 		sleep 1; \
 		if kill -0 $$(cat $(PID_FILE)) 2>/dev/null; then \

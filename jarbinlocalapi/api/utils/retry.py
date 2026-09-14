@@ -1,6 +1,6 @@
 import time
 from typing import Callable, TypeVar
-from jarbinlocalapi.api.models.error import SystemInfoError
+from jarbinlocalapi.root.models.error import SystemInfoError
 
 T = TypeVar("T")
 

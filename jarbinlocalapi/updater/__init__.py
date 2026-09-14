@@ -6,7 +6,7 @@ UPDATER
 from pathlib import Path
 from fastapi import APIRouter
 
-from jarbinlocalapi.main import jarbinlocalapi
+from jarbinlocalapi.root import jarbinlocalapi
 
 updater = APIRouter(prefix="/updater")
 
