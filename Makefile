@@ -115,9 +115,8 @@ update:
 	@$(MAKE) --no-print-directory sync
 
 clean:
-	sudo find . -type d -name "__pycache__" -exec rm -rf {} +
-	sudo find . -type f -name "*.pyc" -delete
-	sudo rm -drf $(PID_DIR)
+	find . \( -type d -name '__pycache__' -prune -exec rm -rf '{}' + \) -o \( -type f -name '*.pyc' -exec rm -f '{}' + \)
+	rm -drf $(PID_DIR)
 
 test:
 	$(PYTHON) -m tests
