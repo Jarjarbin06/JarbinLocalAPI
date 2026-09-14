@@ -14,7 +14,7 @@ from jarbinlocalapi.root import jarbinlocalapi
 @jarbinlocalapi.middleware("http")
 async def api_metadata_middleware(request: Request, call_next):
 
-    if request.url.path.startswith("/app"):
+    if request.url.path.startswith("/app") or request.url.path == "/openapi.json":
         return await call_next(request)
 
     meta = request.query_params.get("meta", "true").lower() == "true"
