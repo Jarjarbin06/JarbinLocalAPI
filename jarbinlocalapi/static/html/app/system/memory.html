@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon">
 
     <title>{{ title }} ({{ version }}) - Memory</title>
 
-    <link rel="stylesheet" href="/static/css/main.css">
+    <link href="/static/css/main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -31,9 +32,9 @@
 
             <div class="bar">
                 <div
-                    class="bar-fill"
-                    id="memory-usage-bar"
-                    style="width: {{ memory.virtual.percent }}%;"
+                        class="bar-fill"
+                        id="memory-usage-bar"
+                        style="width: {{ memory.virtual.percent }}%;"
                 ></div>
             </div>
 
@@ -61,9 +62,9 @@
 
             <div class="bar">
                 <div
-                    class="bar-fill"
-                    id="swap-usage-bar"
-                    style="width: {{ memory.swap.percent }}%;"
+                        class="bar-fill"
+                        id="swap-usage-bar"
+                        style="width: {{ memory.swap.percent }}%;"
                 ></div>
             </div>
 

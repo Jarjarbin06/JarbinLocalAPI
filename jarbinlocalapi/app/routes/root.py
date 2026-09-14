@@ -1,7 +1,7 @@
 from fastapi.responses import HTMLResponse
 
 from jarbinlocalapi.app import app
-from jarbinlocalapi.templates.root import template_root
+from jarbinlocalapi.templates.app.root import template_root
 from jarbinlocalapi import (
     __name__ as title,
     __version__ as version

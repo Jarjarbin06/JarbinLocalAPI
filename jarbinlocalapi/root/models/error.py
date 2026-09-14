@@ -1,4 +1,3 @@
-from pathlib import Path
 from starlette.responses import JSONResponse
 from fastapi import Request
 from fastapi.responses import HTMLResponse
@@ -10,11 +9,7 @@ from jarbinlocalapi import (
     __name__ as title,
     __version__ as version,
 )
-from jarbinlocalapi.root import jarbinlocalapi
-
-
-STATIC_DIR = Path(__file__).resolve().parent.parent.parent / "static"
-
+from jarbinlocalapi.root import jarbinlocalapi, STATIC_DIR
 
 templates = Environment(
     loader=FileSystemLoader(join(STATIC_DIR, "html"))
