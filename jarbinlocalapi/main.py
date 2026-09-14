@@ -78,3 +78,5 @@ def run() -> None:
 from jarbinlocalapi.app import main
 from jarbinlocalapi.api import main
 from jarbinlocalapi.updater import main
+
+from jarbinlocalapi.middleware import metadata

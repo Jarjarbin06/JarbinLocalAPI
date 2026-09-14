@@ -31,7 +31,7 @@ async def get_app_system():
     async with AsyncClient() as client:
         response = await client.get("http://jarjarbin.local/api/system")
 
-    return template_overview.render(title = title, version = version, system = response.json())
+    return template_overview.render(title = title, version = version, system = response.json()["data"])
 
 
 @app.get("/system/cpu", response_class=HTMLResponse)
@@ -45,7 +45,7 @@ async def get_app_system_cpu():
     async with AsyncClient() as client:
         response = await client.get("http://jarjarbin.local/api/system/cpu")
 
-    return template_cpu.render(title = title, version = version, cpu = response.json())
+    return template_cpu.render(title = title, version = version, cpu = response.json()["data"])
 
 
 @app.get("/system/memory", response_class=HTMLResponse)
@@ -59,7 +59,7 @@ async def get_app_system_memory():
     async with AsyncClient() as client:
         response = await client.get("http://jarjarbin.local/api/system/memory")
 
-    return template_memory.render(title = title, version = version, memory = response.json())
+    return template_memory.render(title = title, version = version, memory = response.json()["data"])
 
 
 @app.get("/system/battery", response_class=HTMLResponse)
@@ -73,7 +73,7 @@ async def get_app_system_battery():
     async with AsyncClient() as client:
         response = await client.get("http://jarjarbin.local/api/system/sensors?category=battery")
 
-    return template_battery.render(title = title, version = version, battery = response.json())
+    return template_battery.render(title = title, version = version, battery = response.json()["data"])
 
 
 @app.get("/system/disk", response_class=HTMLResponse)
@@ -87,7 +87,7 @@ async def get_app_system_disk():
     async with AsyncClient() as client:
         response = await client.get("http://jarjarbin.local/api/system/disk")
 
-    return template_disk.render(title = title, version = version, disk = response.json())
+    return template_disk.render(title = title, version = version, disk = response.json()["data"])
 
 
 @app.get("/system/network", response_class=HTMLResponse)
@@ -101,7 +101,7 @@ async def get_app_system_network():
     async with AsyncClient() as client:
         response = await client.get("http://jarjarbin.local/api/system/network")
 
-    return template_network.render(title = title, version = version, network = response.json())
+    return template_network.render(title = title, version = version, network = response.json()["data"])
 
 
 @app.get("/system/processes", response_class=HTMLResponse)
@@ -115,7 +115,7 @@ async def get_app_system_processes():
     async with AsyncClient() as client:
         response = await client.get("http://jarjarbin.local/api/system/processes")
 
-    return template_processes.render(title = title, version = version, processes = response.json())
+    return template_processes.render(title = title, version = version, processes = response.json()["data"])
 
 
 @app.get("/system/system", response_class=HTMLResponse)
@@ -129,7 +129,7 @@ async def get_app_system_system():
     async with AsyncClient() as client:
         response = await client.get("http://jarjarbin.local/api/system/system")
 
-    return template_system.render(title = title, version = version, system = response.json())
+    return template_system.render(title = title, version = version, system = response.json()["data"])
 
 
 @app.get("/system/temperatures", response_class=HTMLResponse)
@@ -143,7 +143,7 @@ async def get_app_system_temperatures():
     async with AsyncClient() as client:
         response = await client.get("http://jarjarbin.local/api/system/sensors?category=temperatures")
 
-    return template_temperatures.render(title = title, version = version, temperatures = response.json())
+    return template_temperatures.render(title = title, version = version, temperatures = response.json()["data"])
 
 
 @app.get("/system/top_processes", response_class=HTMLResponse)
@@ -157,4 +157,4 @@ async def get_app_system_top_processes():
     async with AsyncClient() as client:
         response = await client.get("http://jarjarbin.local/api/system/processes")
 
-    return template_top_processes.render(title = title, version = version, top_processes = response.json())
+    return template_top_processes.render(title = title, version = version, top_processes = response.json()["data"])

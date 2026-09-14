@@ -16,7 +16,7 @@ def JT_api_system_root_get():
     Assertion.eq(response.status_code, 200, "API system root returned wrong status code")
 
     for _type in ["cpu", "memory", "disk", "network", "processes", "sensors", "system"]:
-        Assertion.contain(response.json(), _type, f"API system root returned wrong response ({_type} not included)")
+        Assertion.contain(response.json()["data"], _type, f"API system root returned wrong response ({_type} not included)")
 
 def JT_api_system_root_get_per_type():
     base_url = "http://jarjarbin.local/api/system?type={type}"
@@ -28,7 +28,7 @@ def JT_api_system_root_get_per_type():
         Show.Request(response.request.method, url)
 
         Assertion.eq(response.status_code, 200, f"API system root returned wrong status code for type '{_type}'")
-        Assertion.eq(list(response.json().keys())[0], _type, f"API system root returned wrong response for type '{_type}'")
+        Assertion.eq(list(response.json()["data"].keys())[0], _type, f"API system root returned wrong response for type '{_type}'")
 
 
 # =========================================================

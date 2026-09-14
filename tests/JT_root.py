@@ -17,7 +17,22 @@ def JT_root_get():
     Show.Response(response, body=False)
 
     Assertion.eq(response.status_code, 200, "Root returned wrong status code")
-    Assertion.eq({"status": "OK"}, response.json(), "Root returned wrong response")
+    Assertion.eq({"status": "OK"}, response.json()["data"], "Root returned wrong response")
+
+
+def JT_root_get_metadata():
+    url = "http://jarjarbin.local/"
+
+    response = Get.HTTP.get(
+        url,
+        follow_redirects=True
+    )
+
+    Show.Request(response.request.method, url)
+    Show.Response(response, body=False)
+
+    Assertion.eq(response.status_code, 200, "Root returned wrong status code")
+    Assertion.contain(response.json()["meta"], "path", "Root returned wrong response")
 
 
 # =========================================================

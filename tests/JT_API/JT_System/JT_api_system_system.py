@@ -16,7 +16,7 @@ def JT_api_system_memory_get():
     Assertion.eq(response.status_code, 200, "API system system returned wrong status code")
 
     for _type in ["boot_time", "users"]:
-        Assertion.contain(response.json(), _type, f"API system system returned wrong response ({_type} not included)")
+        Assertion.contain(response.json()["data"], _type, f"API system system returned wrong response ({_type} not included)")
 
 def JT_api_system_memory_get_per_category():
     base_url = "http://jarjarbin.local/api/system/system?category={type}"
@@ -28,7 +28,7 @@ def JT_api_system_memory_get_per_category():
         Show.Request(response.request.method, url)
 
         Assertion.eq(response.status_code, 200, f"API system system returned wrong status code for type '{_type}'")
-        Assertion.eq(list(response.json().keys())[0], _type, f"API system system returned wrong response for type '{_type}'")
+        Assertion.eq(list(response.json()["data"].keys())[0], _type, f"API system system returned wrong response for type '{_type}'")
 
 
 # =========================================================

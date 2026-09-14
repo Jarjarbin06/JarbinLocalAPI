@@ -14,7 +14,7 @@ def JT_api_root_get():
     Show.Response(response, body=False)
 
     Assertion.eq(response.status_code, 200, "API root returned wrong status code")
-    Assertion.eq({"message": "Hello World!"}, response.json(), "API root returned wrong response")
+    Assertion.eq({"message": "Hello World!"}, response.json()["data"], "API root returned wrong response")
 
 
 # =========================================================
